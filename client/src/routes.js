@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import { Switch, Route } from "react-router-dom";
 import Layout from "./hoc/layout";
 import "./App.css";

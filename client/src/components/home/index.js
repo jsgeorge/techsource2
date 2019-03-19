@@ -4,7 +4,9 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <h3>React Client Server App</h3>
+        <div className="container">
+          <h3>React Client Server App</h3>
+        </div>
       </div>
     );
   }
