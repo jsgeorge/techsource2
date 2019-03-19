@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h3>React CLint SErver App</h3>
+        <h3>React Client Server App</h3>
       </div>
     );
   }
