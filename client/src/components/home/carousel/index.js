@@ -7,7 +7,7 @@ import slide4 from "../../../Resources/images/featured/slide4.png";
 
 const Carousel = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     autoplay: true,
     speed: 400,
@@ -27,20 +27,20 @@ const Carousel = () => {
           <div
             className="featured_image"
             style={{
-              background: `url(${slide1})`
+              background: `url(${slide3})`,
+              height: `${window.innerHeight}px`
             }}
           >
             <div className="featured_action">
               <div className="tag">
-                <div className="title">SAMSUNG</div>
-                <div className="low_title">Endless Section</div>
+                <div className="title">APPLE</div>
+                <div className="low_title">Great Selection</div>
               </div>
             </div>
           </div>
         </div>
-        {/* <div> */}
-        {/* end slide 1 container */}
-        {/* <div
+        <div>
+          <div
             className="featured_image"
             style={{
               background: `url(${slide2})`,
@@ -49,23 +49,7 @@ const Carousel = () => {
           >
             <div className="featured_action">
               <div className="tag">
-                <div className="title">DELL</div>
-                <div className="low_title">Huge Discounts</div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        <div>
-          <div
-            className="featured_image"
-            style={{
-              background: `url(${slide3})`,
-              height: `${window.innerHeight}px`
-            }}
-          >
-            <div className="featured_action">
-              <div className="tag">
-                <div className="title">APPLE</div>
+                <div className="title">HTC</div>
                 <div className="low_title">Great Selection</div>
               </div>
             </div>

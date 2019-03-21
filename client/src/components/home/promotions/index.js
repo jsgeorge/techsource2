@@ -1,16 +1,39 @@
-import React from 'react';
+import React from "react";
+import MyButton from "../../utils/button";
 
-const Promotions = () => {
-    return (
-        <div className="home_promotion">
-            <div className="home_promotion_img">
-            <div className="tag">
-              <div className="title">Up to 40% OFF</div>
-              <div className="low_title">Refurbished Phones</div>
-            </div>
-            </div>
+const Promotions = props => {
+  const promotion = {
+    img: "/images/featured/slide2.jpg",
+    lineOne: "Up to 40% off",
+    lineTwo: "in factory refurbishedd tablets",
+    linkTitle: "Shop now",
+    linkTo: "/shop"
+  };
+
+  const renderPromotion = () =>
+    promotion ? (
+      <div
+        className="home_promotion_img"
+        style={{
+          background: `url(${promotion.img})`
+        }}
+      >
+        <div className="tag title">{promotion.lineOne}</div>
+        <div className="tag low_title">{promotion.lineTwo}</div>
+        <div>
+          <MyButton
+            type="default"
+            title={promotion.linkTitle}
+            linkTo={promotion.linkTo}
+            addStyles={{
+              margin: "10px 0 0 0"
+            }}
+          />
         </div>
-    );
+      </div>
+    ) : null;
+
+  return <div className="home_promotion">{renderPromotion()}</div>;
 };
 
 export default Promotions;

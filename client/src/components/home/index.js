@@ -16,7 +16,8 @@ class HomePage extends Component {
     return (
       <div>
         <Carousel />
-        <div className="container">
+
+        <div>
           <CardBlock list={this.props.products.bySell} title="Top Sellers" />
         </div>
         <Promotions />

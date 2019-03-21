@@ -16,7 +16,7 @@ const CardBlock = props => {
             props.list.length === 0 ? (
               <div className="no_result">No products found</div>
             ) : (
-              <div> {renderCards(props.list)}</div>
+              <div> {renderCards(props.list)} </div>
             )
           ) : (
             <div className="no_result">No products found</div>
