@@ -2,13 +2,17 @@ import React, { Component } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Link, withRouter } from "react-router-dom";
-//import { connect } from "react-redux";
-//import { UserLogout } from "../../actions/user_actions";
+import { connect } from "react-redux";
+import { UserLogout } from "../../actions/user_actions";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faBars from "@fortawesome/fontawesome-free-solid/faBars";
+import faShoppingCart from "@fortawesome/fontawesome-free-solid/faShoppingCart";
+import faUser from "@fortawesome/fontawesome-free-solid/faUser";
+
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import { orange } from "@material-ui/core/colors";
 
 class Header extends Component {
   state = {
@@ -20,7 +24,7 @@ class Header extends Component {
         public: true
       },
       {
-        name: "Electronics",
+        name: "Shop",
         linkTo: "/shop/products",
         public: true
       }
@@ -46,6 +50,23 @@ class Header extends Component {
         linkTo: "/user/logout",
         public: false
       }
+    ],
+    mobile: [
+      {
+        name: "Home",
+        linkTo: "/",
+        public: true
+      },
+      {
+        name: "Shop",
+        linkTo: "/shop/products",
+        public: true
+      },
+      {
+        name: "Log out",
+        linkTo: "/user/logout",
+        public: false
+      }
     ]
   };
 
@@ -57,18 +78,22 @@ class Header extends Component {
   handleClick = () => {
     this.setState({ open: !this.state.open });
   };
+
   handleBars = () =>
     this.state.open ? (
       <FontAwesomeIcon icon={faBars} className="icon" />
     ) : (
       <FontAwesomeIcon icon={faBars} className="icon" />
     );
+  mobileCart = () => <FontAwesomeIcon icon={faShoppingCart} className="icon" />;
+  mobileUser = () => <FontAwesomeIcon icon={faUser} className="icon" />;
+
   logoutHandler = () => {
-    // this.props.dispatch(UserLogout()).then(response => {
-    //   if (response.payload.success) {
-    //     this.props.history.push("/");
-    //   }
-    // });
+    this.props.dispatch(UserLogout()).then(response => {
+      if (response.payload.success) {
+        this.props.history.push("/");
+      }
+    });
   };
 
   defaultLink = (item, i) =>
@@ -85,65 +110,76 @@ class Header extends Component {
         {item.name}
       </Link>
     );
-  mobileLink = (item, i) => (
-    // item.name === "Log out" ? (
-    //   <ListItem
-    //     style={{
-    //       background: "transparent",
-    //       color: "#fff",
-    //       padding: "15px 0",
-    //       borderBottom: "1px solid #555"
-    //     }}
-    //     key={i}
-    //     className="log_out_link"
-    //     key={i}
-    //     onClick={() => this.logoutHandler()}
-    //   >
-    //     Log Out
-    //   </ListItem>
-    // ) : (
-    <ListItem
-      key={i}
-      style={{
-        background: "transparent",
-        color: "#fff",
-        padding: "15px 0",
-        borderBottom: "1px solid #555"
-      }}
-    >
-      <Link to={item.linkTo} key={i}>
-        {item.name}
-      </Link>
-    </ListItem>
-  );
-  // );
+
+  cartLink = (item, i) => {
+    const user = this.props.user.userData;
+
+    return (
+      <div className="cart_link" key={i}>
+        <FontAwesomeIcon icon={faShoppingCart} />
+        {/* {<span>{user.cart ? user.cart.length : 0}</span>} */}
+        <Link to={item.linkTo}>{item.name}</Link>
+      </div>
+    );
+  };
+  mobileLink = (item, i) =>
+    item.name === "Log out" ? (
+      <ListItem
+        style={{
+          background: "transparent",
+          color: "#fff",
+          padding: "15px 0",
+          borderBottom: "1px solid #555"
+        }}
+        key={i}
+        className="log_out_link"
+        key={i}
+        onClick={() => this.logoutHandler()}
+      >
+        Log Out
+      </ListItem>
+    ) : (
+      <ListItem
+        key={i}
+        style={{
+          background: "transparent",
+          color: "#fff",
+          padding: "15px 0",
+          borderBottom: "1px solid #555"
+        }}
+      >
+        <Link to={item.linkTo} key={i}>
+          {item.name}
+        </Link>
+      </ListItem>
+    );
   showLinks = (type, isMobile) => {
     let list = [];
 
-    // if (this.props.user.userData) {
-    //   type.forEach(item => {
-    //     if (!this.props.user.userData.isAuth) {
-    //       if (item.public === true) {
-    //         list.push(item);
-    //       }
-    //     } else {
-    //       if (item.name !== "Log in") {
-    //         list.push(item);
-    //       }
-    //     }
-    //   });
-    // }
-    type.forEach(item => {
-      list.push(item);
-    });
+    if (this.props.user.userData) {
+      type.forEach(item => {
+        if (!this.props.user.userData.isAuth) {
+          if (item.public === true) {
+            list.push(item);
+          }
+        } else {
+          if (item.name !== "Log in") {
+            list.push(item);
+          }
+        }
+      });
+    }
+    // type.forEach(item => {
+    //   list.push(item);
+    // });
 
     return list.map((item, i) => {
-      //if (item.name !== "My Cart") {
-      if (!isMobile) return this.defaultLink(item, i);
-      else return this.mobileLink(item, i);
-      // } else {
-      //   return this.cartLink(item, i);
-      // }
+      if (item.name !== "Cart") {
+        if (!isMobile) return this.defaultLink(item, i);
+        else return this.mobileLink(item, i);
+      } else {
+        return this.cartLink(item, i);
+      }
     });
   };
 
@@ -169,9 +205,49 @@ class Header extends Component {
                       TECH<span className="alt">SOURCE</span>
                     </Link>
                   </div>
-                </div>{" "}
+                </div>
                 <div className="mobileNav right mobile">
-                  {/* <i class="fa fa-bars btnMenu" aria-hidden="true" /> */}
+                  {this.props.user.userData &&
+                  this.props.user.userData.isAuth ? (
+                    <span>
+                      <Link to={"/cart"}>{this.mobileCart()}</Link>
+                      <Link to={"/user/dashboard"}>{this.mobileUser()}</Link>
+                      <button
+                        className="transp-btn"
+                        onClick={() => this.logoutHandler()}
+                      >
+                        Logout
+                      </button>
+                      {/* <List
+                        style={{
+                          padding: "0",
+                          width: "100px"
+                        }}
+                      >
+                        <ListItem
+                          onClick={this.handleClick}
+                          style={{ width: "100%" }}
+                        >
+                          {this.handleBars()}
+                        </ListItem>
+                        <Collapse
+                          in={this.state.open}
+                          timeout="auto"
+                          unmountOnExit
+                        >
+                          <List
+                            component="div"
+                            style={{ background: "transparent", padding: "0" }}
+                          >
+                            {this.showLinks(this.state.mobile, true)}
+                          </List>
+                        </Collapse>
+                      </List> */}
+                    </span>
+                  ) : (
+                    <Link to={"/login"}>Login</Link>
+                  )
+                  /*{" "}
                   <List style={{ padding: "0", width: "100px" }}>
                     <ListItem
                       onClick={this.handleClick}
@@ -185,10 +261,11 @@ class Header extends Component {
                         style={{ background: "transparent", padding: "0" }}
                       >
                         {this.showLinks(this.state.page2, true)}
-                        {this.showLinks(this.state.user, true)}
                       </List>
                     </Collapse>
-                  </List>
+                  </List>{" "}
+                  */
+                  }
                 </div>
                 <div className="right dektop tablet">
                   <div className="top">
@@ -200,11 +277,22 @@ class Header extends Component {
                 </div>
               </div>
             </Toolbar>
+            <div className="nav2 mobile">
+              {/* <Link to={"/"}>Home</Link>
+              <Link to={"/products"}>Shop</Link>
+              <Link to={"Specials"}>Specials</Link> */}
+              {this.showLinks(this.state.page2, false)}
+            </div>
           </AppBar>
         </header>
       </div>
     );
   }
 }
-
-export default withRouter(Header);
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
+};
+export default connect(mapStateToProps)(withRouter(Header));
+//export default withRouter(Header);

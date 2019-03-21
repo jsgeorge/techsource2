@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Promotions from "./promotions";
+import Carousel from "./carousel";
 import CardBlock from "./../utils/card_block";
 import { connect } from "react-redux";
 import {
@@ -14,6 +15,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
+        <Carousel />
         <div className="container">
           <CardBlock list={this.props.products.bySell} title="Top Sellers" />
         </div>

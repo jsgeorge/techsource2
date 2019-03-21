@@ -45,6 +45,18 @@ const MyButton = props => {
           </div>
         );
         break;
+      case "logout_link":
+        template = (
+          <div
+            className="logout_link"
+            onClick={() => {
+              props.runAction();
+            }}
+          >
+            <FontAwesomeIcon icon={faShoppingBag} />
+          </div>
+        );
+        break;
       default:
         template = "";
     }

@@ -245,7 +245,7 @@ header {
 }
 
 header .logo {
-  font-family: "Monoton", cursive;
+  font-family: "Russo One", sans-serif;
   color: #ffffff;
   font-size: 30px;
   padding: 11px 0px;
@@ -296,13 +296,22 @@ header .container .right .top {
 }
 header .container .right a {
   margin-left: 20px;
-  color:#fff;
+  color: #fff;
 }
 header .cart_link {
   display: inline-block;
   position: relative;
 }
-
+.transp-btn {
+  background: transparent;
+  color: #fff;
+  border: none;
+}
+.transp-btn-blk {
+  background: transparent;
+  color: #111;
+  border: none;
+}
 header .cart_link span {
   position: absolute;
   background: red;
@@ -1008,6 +1017,9 @@ header .desktop {
 /* ************************************************************/
 
 @media (max-width: 550px) {
+  header {
+    height: 100px;
+  }
   .desktop {
     display: none;
   }
@@ -1043,12 +1055,30 @@ header .desktop {
     padding: 0;
   }
   header .container .left {
-    width: 180px;
+    width: 160px;
     margin-left: 0;
     padding-left: 0;
   }
   .mobileNav {
-    width: 100px;
+    width: 190px;
+
+    padding-top: 10px;
+    padding-left: 0;
+  }
+  .nav2 {
+    clear: left;
+    width: 95%;
+    margin: 0 auto;
+    border-top: 1px solid gray;
+    padding-top: 5px;
+  }
+  .nav2 a {
+    margin: 10px;
+    height: 20px;
+    font-size: 12px;
+  }
+  .mobileNav a {
+    margin-left: 0;
   }
   header .left .mobile {
     padding: 0;
@@ -1065,6 +1095,15 @@ header .desktop {
     overflow: hidden;
     background-size: cover !important;
     background-position: center left !important;
+  }
+  .featured_container .featured_image {
+    height: 350px;
+    background-position: center !important;
+  }
+  .featured_container .featured_action {
+    position: absolute;
+    top: 35%;
+    left: 8%;
   }
   .featured_container .featured_action .tag .title {
     font-size: 40px;

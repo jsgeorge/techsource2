@@ -32,6 +32,9 @@ const { User } = require("./models/user");
 const { Brand } = require("./models/brand");
 const { Product } = require("./models/product");
 const { Category } = require("./models/category");
+//middlewares
+const { auth } = require("./middleware/auth");
+const { admin } = require("./middleware/admin");
 
 //=================================
 //             PRODUCTS
@@ -186,6 +189,235 @@ app.get("/api/product/categories/id", (req, res) => {
     res.status(200).send(categories);
   });
 });
+
+//=================================
+//             USERS
+//=================================
+
+app.get("/api/users/auth", auth, (req, res) => {
+  res.status(200).json({
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    cart: req.user.cart,
+    history: req.user.history
+  });
+});
+
+app.post("/api/users/register", (req, res) => {
+  const user = new User(req.body);
+
+  user.save((err, doc) => {
+    if (err) return res.json({ regSuccess: false, err });
+    res.status(200).json({
+      regSuccess: true
+    });
+  });
+});
+app.post("/api/users/edit", auth, (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: req.body },
+    { new: true },
+    (err, doc) => {
+      if (err) return res.json({ editSuccess: false, err });
+      res.status(200).json({
+        editSuccess: true
+      });
+    }
+  );
+});
+app.post("/api/users/login", (req, res) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!user)
+      return res.json({
+        loginSuccess: false,
+        message: "Auth failed, email not found"
+      });
+
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch)
+        return res.json({
+          loginSuccess: false,
+          message: "Wrong password"
+        });
+      // res.status(200).json({
+      //   loginSuccess: true,
+      // });
+      user.generateToken((err, user) => {
+        if (err) return res.status(400).send(err);
+        res
+          .cookie("w_auth", user.token)
+          .status(200)
+          .json({
+            loginSuccess: true
+          });
+      });
+    });
+  });
+});
+// app.post("/api/users/addtocart", auth, (req, res) => {
+//   User.findOne({ _id: req.user._id }, (err, doc) => {
+//     let duplicate = false;
+//     doc.cart.forEach(item => {
+//       if (item.id == req.query.prodId) duplicate = true;
+//     });
+//     if (duplicate) {
+//       User.findOneAndUpdate(
+//         {
+//           _id: req.user._id,
+//           "cart.id": mongoose.Types.ObjectId(req.query.prodId)
+//         },
+//         { $inc: { "cart.$.quantity": 1 } },
+//         { new: true },
+//         () => {
+//           if (err) return res.json({ success: false, err });
+//           res.status(200).json(doc.cart);
+//         }
+//       );
+//     } else {
+//       User.findOneAndUpdate(
+//         { _id: req.user._id },
+//         {
+//           $push: {
+//             cart: {
+//               id: mongoose.Types.ObjectId(req.query.prodId),
+//               quantity: 1,
+//               date: Date.now()
+//             }
+//           }
+//         },
+//         { new: true },
+//         (err, doc) => {
+//           if (err) return res.json({ success: false, err });
+//           res.status(200).json(doc.cart);
+//         }
+//       );
+//     }
+//   });
+// });
+
+// app.get("/api/users/deletefromcart", auth, (req, res) => {
+//   User.findOneAndUpdate(
+//     { _id: req.user._id },
+//     { $pull: { cart: { id: mongoose.Types.ObjectId(req.query._id) } } },
+//     { new: true },
+//     (err, doc) => {
+//       let cart = doc.cart;
+//       let array = cart.map(item => {
+//         return mongoose.Types.ObjectId(item.id);
+//       });
+
+//       Product.find({ " _id": { $in: array } })
+//         .populate("brand")
+//         .populate("category")
+//         .exec((err, cardDetail) => {
+//           return res.status(200).json({ cardDetail, cart });
+//         });
+//     }
+//   );
+// });
+
+// app.post("/api/users/successBuy", auth, (req, res) => {
+//   let history = [];
+//   let txData = {};
+
+//   //user history
+//   req.body.cartDetail.forEach(item => {
+//     history.push({
+//       dateOfPurchase: Date.now(),
+//       name: item.name,
+//       brand: item.brand.name,
+//       id: item._id,
+//       price: item.price,
+//       quantity: item.quantity,
+//       paymentId: req.body.paymentData.paymentID
+//     });
+//   });
+//   console.log(history);
+//   //payment dash
+
+//   txData.user = {
+//     id: req.user._id,
+//     name: req.user.name,
+//     lastname: req.user.lastname,
+//     email: req.user.email
+//   };
+
+//   txData.data = req.body.paymentData;
+//   txData.product = history;
+
+//   User.findOneAndUpdate(
+//     { _id: req.user._id },
+//     { $push: { history: history }, $set: { cart: [] } },
+//     { new: true },
+//     (err, user) => {
+//       if (err) return res.json({ successBuy: false, err });
+//       const payment = new Payment(txData);
+//       payment.save((err, doc) => {
+//         if (err) return res.json({ successBuy: false, err });
+
+//         let products = [];
+//         doc.product.forEach(item => {
+//           products.push({
+//             id: item.id,
+//             quantity: item.quantity
+//           });
+//         });
+
+//         async.eachSeries(
+//           products,
+//           (item, callback) => {
+//             Product.update(
+//               { _id: item._id },
+//               {
+//                 $inc: {
+//                   sold: item.quantity
+//                 }
+//               },
+//               { new: false },
+//               callback
+//             );
+//           },
+//           err => {
+//             if (err) return res.json({ successBuy: false, err });
+//             res.status(200).json({
+//               successBuy: true,
+//               cart: user.cart,
+//               cartDetail: []
+//             });
+//           }
+//         );
+//       });
+//     }
+//   );
+// });
+
+app.get("/api/users/logout", auth, (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, doc) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({ success: true });
+  });
+});
+
+// app.post("/api/users/uploadimage", auth, admin, formidable(), (req, res) => {
+//   cloudinary.uploader.upload(
+//     req.files.file.path,
+//     result => {
+//       res.status(200).send({
+//         public_id: result.public_id,
+//         url: result.url
+//       });
+//     },
+//     {
+//       public_id: `${Date.now()}`,
+//       resource_type: "auto"
+//     }
+//   );
+// });
 
 //default
 if (process.env.NODE_ENV === "production") {

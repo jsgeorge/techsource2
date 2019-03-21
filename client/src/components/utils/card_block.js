@@ -15,9 +15,12 @@ const CardBlock = props => {
           {props.list ? (
             props.list.length === 0 ? (
               <div className="no_result">No products found</div>
-            ) : null
-          ) : null}
-          {renderCards(props.list)}
+            ) : (
+              <div> {renderCards(props.list)}</div>
+            )
+          ) : (
+            <div className="no_result">No products found</div>
+          )}
         </div>
       </div>
     </div>
