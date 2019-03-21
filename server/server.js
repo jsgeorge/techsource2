@@ -259,67 +259,67 @@ app.post("/api/users/login", (req, res) => {
     });
   });
 });
-// app.post("/api/users/addtocart", auth, (req, res) => {
-//   User.findOne({ _id: req.user._id }, (err, doc) => {
-//     let duplicate = false;
-//     doc.cart.forEach(item => {
-//       if (item.id == req.query.prodId) duplicate = true;
-//     });
-//     if (duplicate) {
-//       User.findOneAndUpdate(
-//         {
-//           _id: req.user._id,
-//           "cart.id": mongoose.Types.ObjectId(req.query.prodId)
-//         },
-//         { $inc: { "cart.$.quantity": 1 } },
-//         { new: true },
-//         () => {
-//           if (err) return res.json({ success: false, err });
-//           res.status(200).json(doc.cart);
-//         }
-//       );
-//     } else {
-//       User.findOneAndUpdate(
-//         { _id: req.user._id },
-//         {
-//           $push: {
-//             cart: {
-//               id: mongoose.Types.ObjectId(req.query.prodId),
-//               quantity: 1,
-//               date: Date.now()
-//             }
-//           }
-//         },
-//         { new: true },
-//         (err, doc) => {
-//           if (err) return res.json({ success: false, err });
-//           res.status(200).json(doc.cart);
-//         }
-//       );
-//     }
-//   });
-// });
+app.post("/api/users/addtocart", auth, (req, res) => {
+  User.findOne({ _id: req.user._id }, (err, doc) => {
+    let duplicate = false;
+    doc.cart.forEach(item => {
+      if (item.id == req.query.prodId) duplicate = true;
+    });
+    if (duplicate) {
+      User.findOneAndUpdate(
+        {
+          _id: req.user._id,
+          "cart.id": mongoose.Types.ObjectId(req.query.prodId)
+        },
+        { $inc: { "cart.$.quantity": 1 } },
+        { new: true },
+        () => {
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(doc.cart);
+        }
+      );
+    } else {
+      User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          $push: {
+            cart: {
+              id: mongoose.Types.ObjectId(req.query.prodId),
+              quantity: 1,
+              date: Date.now()
+            }
+          }
+        },
+        { new: true },
+        (err, doc) => {
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(doc.cart);
+        }
+      );
+    }
+  });
+});
 
-// app.get("/api/users/deletefromcart", auth, (req, res) => {
-//   User.findOneAndUpdate(
-//     { _id: req.user._id },
-//     { $pull: { cart: { id: mongoose.Types.ObjectId(req.query._id) } } },
-//     { new: true },
-//     (err, doc) => {
-//       let cart = doc.cart;
-//       let array = cart.map(item => {
-//         return mongoose.Types.ObjectId(item.id);
-//       });
+app.get("/api/users/deletefromcart", auth, (req, res) => {
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $pull: { cart: { id: mongoose.Types.ObjectId(req.query._id) } } },
+    { new: true },
+    (err, doc) => {
+      let cart = doc.cart;
+      let array = cart.map(item => {
+        return mongoose.Types.ObjectId(item.id);
+      });
 
-//       Product.find({ " _id": { $in: array } })
-//         .populate("brand")
-//         .populate("category")
-//         .exec((err, cardDetail) => {
-//           return res.status(200).json({ cardDetail, cart });
-//         });
-//     }
-//   );
-// });
+      Product.find({ " _id": { $in: array } })
+        .populate("brand")
+        .populate("category")
+        .exec((err, cardDetail) => {
+          return res.status(200).json({ cardDetail, cart });
+        });
+    }
+  );
+});
 
 // app.post("/api/users/successBuy", auth, (req, res) => {
 //   let history = [];
