@@ -8,6 +8,7 @@ import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faBars from "@fortawesome/fontawesome-free-solid/faBars";
 import faShoppingCart from "@fortawesome/fontawesome-free-solid/faShoppingCart";
 import faUser from "@fortawesome/fontawesome-free-solid/faUser";
+import faSearch from "@fortawesome/fontawesome-free-solid/faSearch";
 
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
@@ -87,6 +88,7 @@ class Header extends Component {
     );
   mobileCart = () => <FontAwesomeIcon icon={faShoppingCart} className="icon" />;
   mobileUser = () => <FontAwesomeIcon icon={faUser} className="icon" />;
+  desktopSearch = () => <FontAwesomeIcon icon={faSearch} className="icon" />;
 
   logoutHandler = () => {
     this.props.dispatch(UserLogout()).then(response => {
@@ -206,6 +208,12 @@ class Header extends Component {
                     </Link>
                   </div>
                 </div>
+                <div className="srch-form">
+                  <form>
+                    <input placeholder="Search products" />
+                    <button>{this.desktopSearch()}</button>
+                  </form>
+                </div>
                 <div className="mobileNav right mobile">
                   {this.props.user.userData &&
                   this.props.user.userData.isAuth ? (
@@ -282,6 +290,12 @@ class Header extends Component {
               <Link to={"/products"}>Shop</Link>
               <Link to={"Specials"}>Specials</Link> */}
               {this.showLinks(this.state.page2, false)}
+            </div>
+            <div className="srch">
+              <form>
+                <input placeholder="Search products" />
+                <button>{this.desktopSearch()}</button>
+              </form>
             </div>
           </AppBar>
         </header>

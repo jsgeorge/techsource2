@@ -265,7 +265,19 @@ header .container {
 header .container .left {
   width: 400px;
 }
+header .container .srch-form {
+  width: 300px;
+}
+header .container .srch-form input {
+  width: 80%;
+  padding: 8px;
+  margin-top: 15px;
+}
+header .container .srch-form button {
+  padding: 10px 10px 8px 10px;
 
+  border: none;
+}
 header .container .right {
   flex-grow: 1;
   border-left: 1px solid #eeeeee;
@@ -328,7 +340,9 @@ header .log_out_link {
   display: inline-block;
   margin-left: 20px;
 }
-
+.srch {
+  display: none;
+}
 /*============================
             FOOTER
 ==============================*/
@@ -965,6 +979,9 @@ footer .business_nfo .nfo {
   header .logo {
     font-size: 25px;
   }
+  header .container .srch-form {
+    display: none;
+  }
   .side_nav {
     display: none;
   }
@@ -982,6 +999,7 @@ header .container .left {
 header .desktop {
   display: none;
 }
+
 .featured_container {
   height: 400px;
 }
@@ -991,7 +1009,7 @@ header .desktop {
   left: 0%;
 }
 .desktop {
-  display: none;
+  display: block;
 }
 .tablet {
   display: block;
@@ -1026,7 +1044,23 @@ header .desktop {
 /* ************************************************************/
 /*            MOBILE                         */
 /* ************************************************************/
-
+@media (min-width: 551px) and (max-width: 800px) {
+  .srch {
+    display: block;
+    padding: 0;
+    height: 40px;
+  }
+  .srch form {
+    padding: 0 35px;
+  }
+  .srch input {
+    width: 85%;
+    padding: 5px 3px;
+  }
+  .srch button {
+    padding: 5px;
+  }
+}
 @media (max-width: 550px) {
   header {
     height: 100px;
@@ -1060,6 +1094,9 @@ header .desktop {
     margin-left: 0;
     padding-left: 0;
   }
+  header .srch-form {
+    display: none;
+  }
   header .container {
     width: 100%;
     margin: 0;
@@ -1083,11 +1120,31 @@ header .desktop {
     margin: 0 auto;
     border-top: 1px solid gray;
     padding-top: 5px;
+    padding-bottom: 5px;
   }
   .nav2 a {
     margin: 10px;
     height: 20px;
     font-size: 12px;
+  }
+  .srch {
+    display: block;
+    clear: left;
+    width: 100%;
+    margin: 0 auto;
+    height: 32px;
+    padding-top: 1px;
+    background: #111;
+    padding-left: 5px;
+    padding-bottom: 4px;
+  }
+  .srch input {
+    margin: 0;
+    width: 86%;
+    padding: 4px 10px;
+  }
+  .srch button {
+    padding: 4px 8px 3px 8px;
   }
   .mobileNav a {
     margin-left: 0;
