@@ -1116,14 +1116,16 @@ header .desktop {
   }
   .nav2 {
     clear: left;
-    width: 95%;
+    width: 100%;
     margin: 0 auto;
-    border-top: 1px solid gray;
+
+    border-bottom: 1px solid gray;
     padding-top: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+    background: #111;
   }
   .nav2 a {
-    margin: 10px;
+    margin: 15px;
     height: 20px;
     font-size: 12px;
   }
@@ -1135,12 +1137,11 @@ header .desktop {
     height: 32px;
     padding-top: 1px;
     background: #111;
-    padding-left: 5px;
-    padding-bottom: 4px;
+    padding: 5px 15px;
   }
   .srch input {
     margin: 0;
-    width: 86%;
+    width: 80%;
     padding: 4px 10px;
   }
   .srch button {
@@ -1231,7 +1232,7 @@ header .desktop {
     flex-wrap: none;
     padding: 0;
   } */
-  .card_item_wrapper {
+  .card_block_shop .card_item_wrapper {
     float: none;
     display: block;
     width: 100%;
@@ -1241,8 +1242,24 @@ header .desktop {
     clear: left;
     text-align: left;
   }
+  .card_items_wrapper {
+  }
+  .card_block .card_item_wrapper {
+    width: 45%;
+    margin-left: 10px;
+    padding: 0;
+
+    min-width: 100px;
+  }
 
   .card_item_wrapper .image {
+    width: 60%;
+    height: 150px;
+    margin: 0 auto;
+    background-position: center !important;
+    background-size: cover !important;
+  }
+  .card_block_shop .card_item_wrapper .image {
     height: 100px;
     background-position: center !important;
     background-size: cover !important;
@@ -1252,16 +1269,18 @@ header .desktop {
     width: 30%;
     margin-right: 25px;
   }
-  .card_item_wrapper .action_container {
+  .card_block .card_item_wrapper .actions {
+  }
+  .card_block_shop .card_item_wrapper .action_container {
     width: 80%;
     padding-left: 15px;
   }
-  .card_item_wrapper .tags {
+  .card_block_shop .card_item_wrapper .tags {
     padding-left: 15px;
   }
-  .card_item_wrapper .tags .brand,
-  .card_item_wrapper .tags .name,
-  .card_item_wrapper .tags .price {
+  .card_block_shop .card_item_wrapper .tags .brand,
+  .card_block_shop .card_item_wrapper .tags .name,
+  .card_block_shop .card_item_wrapper .tags .price {
     text-align: left;
     margin: 5px;
     font-size: 14px;

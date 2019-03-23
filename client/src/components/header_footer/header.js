@@ -118,8 +118,8 @@ class Header extends Component {
 
     return (
       <div className="cart_link" key={i}>
+        <span>{user.cart ? user.cart.length : 0}</span>
         <FontAwesomeIcon icon={faShoppingCart} />
-        {/* {<span>{user.cart ? user.cart.length : 0}</span>} */}
         <Link to={item.linkTo}>{item.name}</Link>
       </div>
     );
@@ -215,10 +215,11 @@ class Header extends Component {
                   </form>
                 </div>
                 <div className="mobileNav right mobile">
+                  <Link to={"/cart"}>{this.mobileCart()}</Link>
+
                   {this.props.user.userData &&
                   this.props.user.userData.isAuth ? (
                     <span>
-                      <Link to={"/cart"}>{this.mobileCart()}</Link>
                       <Link to={"/user/dashboard"}>{this.mobileUser()}</Link>
                       <button
                         className="transp-btn"
@@ -285,17 +286,18 @@ class Header extends Component {
                 </div>
               </div>
             </Toolbar>
-            <div className="nav2 mobile">
-              {/* <Link to={"/"}>Home</Link>
-              <Link to={"/products"}>Shop</Link>
-              <Link to={"Specials"}>Specials</Link> */}
-              {this.showLinks(this.state.page2, false)}
-            </div>
+
             <div className="srch">
               <form>
                 <input placeholder="Search products" />
                 <button>{this.desktopSearch()}</button>
               </form>
+            </div>
+            <div className="nav2 mobile">
+              {/* <Link to={"/"}>Home</Link>
+              <Link to={"/products"}>Shop</Link>
+              <Link to={"Specials"}>Specials</Link> */}
+              {this.showLinks(this.state.page2, false)}
             </div>
           </AppBar>
         </header>
