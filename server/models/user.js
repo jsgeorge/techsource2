@@ -75,18 +75,18 @@ userSchema.methods.generateToken = function(cb) {
   var token = jwt.sign(user._id.toHexString(), SECRET_KEY);
 
   user.token = token;
-  // user.save(function(err, user) {
-  //   if (err) return cb(err);
-  //   cb(null, user);
-  // });
-  User.update({ _id: user._id }, user, function(
-    err,
-    numberAffected,
-    rawResponse
-  ) {
+  user.save(function(err, user) {
     if (err) return cb(err);
     cb(null, user);
   });
+  // User.update({ _id: user._id }, user, function(
+  //   err,
+  //   numberAffected,
+  //   rawResponse
+  // ) {
+  //   if (err) return cb(err);
+  //   cb(null, user);
+  // });
 };
 
 userSchema.statics.findByToken = function(token, cb) {

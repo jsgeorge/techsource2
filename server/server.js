@@ -250,7 +250,6 @@ app.post("/api/users/login", (req, res) => {
       // });
       user.generateToken((err, user) => {
         if (err) {
-          console.log("***ERROR**** " + err);
           return res.status(400).send(err);
         }
         res
