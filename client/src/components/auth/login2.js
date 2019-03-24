@@ -53,7 +53,8 @@ class Login2 extends Component {
     if (formIsValid) {
       this.props.dispatch(UserLogin(dataToSubmit)).then(response => {
         if (response.payload.loginSuccess) {
-          console.log("User logged in");
+          console.log(response.payload);
+         
           this.props.history.push("/user/dashboard");
         } else {
           this.setState({
