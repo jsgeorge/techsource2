@@ -60,7 +60,7 @@ userSchema.pre("save", function(next) {
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compareSync(candidatePassword, this.password, function(err, isMatch) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
@@ -71,9 +71,7 @@ userSchema.methods.generateToken = function(cb) {
 
   const expiresIn = 24 * 60 * 60;
 
-  var token = jwt.sign({ id: user._id.toHexString() }, process.env.SECRET, {
-    expxiresIn: expiresIn
-  });
+  var token = jwt.sign(user._id.toHexString(), process.env.SECRET);
 
   user.token = token;
   // user.save(function(err, user) {
