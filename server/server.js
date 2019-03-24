@@ -249,7 +249,10 @@ app.post("/api/users/login", (req, res) => {
       //   loginSuccess: true
       // });
       user.generateToken((err, user) => {
-        if (err) return res.status(400).send(err);
+        if (err) {
+          console.log("***ERROR**** " + err);
+          return res.status(400).send(err);
+        }
         res
           .cookie("w_auth", user.token)
           .status(200)
