@@ -245,9 +245,9 @@ app.post("/api/users/login", (req, res) => {
           loginSuccess: false,
           message: "Wrong password"
         });
-      res.status(200).json({
-        loginSuccess: true
-      });
+      // res.status(200).json({
+      //   loginSuccess: true
+      // });
       user.generateToken((err, user) => {
         if (err) {
           return res.status(400).send(err);
