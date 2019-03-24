@@ -72,7 +72,7 @@ userSchema.methods.generateToken = function(cb) {
 
   const expiresIn = 24 * 60 * 60;
 
-  var token = jwt.sign(user._id.toHexString(), SECRET_KEY);
+  var token = jwt.sign(user._id, SECRET_KEY);
 
   user.token = token;
   user.save(function(err, user) {
