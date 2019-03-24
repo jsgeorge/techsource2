@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const SALT_I = 10;
+const SECRET_KEY = "SUPERSECRETPASSWORD123";
 require("dotenv").config();
 
 const userSchema = mongoose.Schema({
@@ -71,7 +72,7 @@ userSchema.methods.generateToken = function(cb) {
 
   const expiresIn = 24 * 60 * 60;
 
-  var token = jwt.sign(user._id.toHexString(), process.env.SECRET);
+  var token = jwt.sign(user._id.toHexString(), SECRET_KEY);
 
   user.token = token;
   // user.save(function(err, user) {
