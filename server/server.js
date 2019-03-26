@@ -32,6 +32,7 @@ const { User } = require("./models/user");
 const { Brand } = require("./models/brand");
 const { Product } = require("./models/product");
 const { Category } = require("./models/category");
+const { Payment } = require("./models/payment");
 //middlewares
 const { auth } = require("./middleware/auth");
 const { admin } = require("./middleware/admin");
@@ -325,80 +326,80 @@ app.get("/api/users/deletefromcart", auth, (req, res) => {
   );
 });
 
-// app.post("/api/users/successBuy", auth, (req, res) => {
-//   let history = [];
-//   let txData = {};
+app.post("/api/users/successBuy", auth, (req, res) => {
+  let history = [];
+  let txData = {};
 
-//   //user history
-//   req.body.cartDetail.forEach(item => {
-//     history.push({
-//       dateOfPurchase: Date.now(),
-//       name: item.name,
-//       brand: item.brand.name,
-//       id: item._id,
-//       price: item.price,
-//       quantity: item.quantity,
-//       paymentId: req.body.paymentData.paymentID
-//     });
-//   });
-//   console.log(history);
-//   //payment dash
+  //user history
+  req.body.cartDetail.forEach(item => {
+    history.push({
+      dateOfPurchase: Date.now(),
+      name: item.name,
+      brand: item.brand.name,
+      id: item._id,
+      price: item.price,
+      quantity: item.quantity,
+      paymentId: req.body.paymentData.paymentID
+    });
+  });
+  console.log(history);
+  //payment dash
 
-//   txData.user = {
-//     id: req.user._id,
-//     name: req.user.name,
-//     lastname: req.user.lastname,
-//     email: req.user.email
-//   };
+  txData.user = {
+    id: req.user._id,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    email: req.user.email
+  };
 
-//   txData.data = req.body.paymentData;
-//   txData.product = history;
+  txData.data = req.body.paymentData;
+  txData.product = history;
 
-//   User.findOneAndUpdate(
-//     { _id: req.user._id },
-//     { $push: { history: history }, $set: { cart: [] } },
-//     { new: true },
-//     (err, user) => {
-//       if (err) return res.json({ successBuy: false, err });
-//       const payment = new Payment(txData);
-//       payment.save((err, doc) => {
-//         if (err) return res.json({ successBuy: false, err });
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $push: { history: history }, $set: { cart: [] } },
+    { new: true },
+    (err, user) => {
+      if (err) return res.json({ successBuy: false, err });
+      const payment = new Payment(txData);
+      payment.save((err, doc) => {
+        if (err) return res.json({ successBuy: false, err });
 
-//         let products = [];
-//         doc.product.forEach(item => {
-//           products.push({
-//             id: item.id,
-//             quantity: item.quantity
-//           });
-//         });
+        let products = [];
+        doc.product.forEach(item => {
+          products.push({
+            id: item.id,
+            quantity: item.quantity
+          });
+        });
 
-//         async.eachSeries(
-//           products,
-//           (item, callback) => {
-//             Product.update(
-//               { _id: item._id },
-//               {
-//                 $inc: {
-//                   sold: item.quantity
-//                 }
-//               },
-//               { new: false },
-//               callback
-//             );
-//           },
-//           err => {
-//             if (err) return res.json({ successBuy: false, err });
-//             res.status(200).json({
-//               successBuy: true,
-//               cart: user.cart,
-//               cartDetail: []
-//             });
-//           }
-//         );
-//       });
-//     }
-//   );
-// });
+        async.eachSeries(
+          products,
+          (item, callback) => {
+            Product.update(
+              { _id: item._id },
+              {
+                $inc: {
+                  sold: item.quantity
+                }
+              },
+              { new: false },
+              callback
+            );
+          },
+          err => {
+            if (err) return res.json({ successBuy: false, err });
+            res.status(200).json({
+              successBuy: true,
+              cart: user.cart,
+              cartDetail: []
+            });
+          }
+        );
+      });
+    }
+  );
+});
 
 app.get("/api/users/logout", auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, doc) => {

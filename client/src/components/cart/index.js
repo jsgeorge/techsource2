@@ -16,7 +16,9 @@ class Cart extends Component {
     loading: true,
     total: 0,
     showTotal: false,
-    showSuccess: false
+    showSuccess: false,
+    showError: false,
+    errMsg: ""
   };
   componentDidMount() {
     let cartItems = [];
@@ -58,7 +60,14 @@ class Cart extends Component {
     });
   };
 
-  transactionError = data => {};
+  transactionError = data => {
+    this.setState({
+      total: 0,
+      showSuccess: false,
+      showError: true,
+      errMsg: "Order processing error"
+    });
+  };
   transactionCanceled = data => {};
   transactionSuccess = data => {
     this.props
@@ -71,6 +80,7 @@ class Cart extends Component {
       .then(() => {
         if (this.props.user.successBuy) {
           this.setState({
+            total: 0,
             showTotal: false,
             showSuccess: true
           });
@@ -118,7 +128,7 @@ class Cart extends Component {
           <div className="container">
             <div>
               {/* <CartBlock cart={this.props.user.userData.cart} /> */}
-              {this.state.total == 0 ? (
+              {this.state.total === 0 && !this.state.showSuccess ? (
                 <div>No items in cart</div>
               ) : (
                 <div>
@@ -130,25 +140,28 @@ class Cart extends Component {
                 </div>
               )}
               {this.state.showTotal && this.state.total > 0 ? (
-                <div className="user_cart_sum">Total $ {this.state.total}</div>
-              ) : null}
-              {this.state.showTotal ? (
-                <div className="paypal_button_container">
-                  {/* <button
-                  className="btnPaypal"
-                  onClick={() => this.paypalHandler()}
-                  style={{ color: "#fff" }}
-                >
-                  Checkout
-                </button> */}
-                  <Paypal
-                    toPay={this.state.total}
-                    transactionError={data => this.transactionError(data)}
-                    transactionCanceled={data => this.transactionCanceled(data)}
-                    onSuccess={data => this.transactionSuccess(data)}
-                  />
+                <div>
+                  <div className="user_cart_sum">
+                    Total $ {this.state.total}
+                  </div>
+
+                  <div className="paypal_button_container">
+                    <Paypal
+                      toPay={this.state.total}
+                      transactionError={data => this.transactionError(data)}
+                      transactionCanceled={data =>
+                        this.transactionCanceled(data)
+                      }
+                      onSuccess={data => this.transactionSuccess(data)}
+                    />
+                  </div>
                 </div>
               ) : null}
+
+              {this.state.showError ? (
+                <div className="error_label"> {this.state.errMsg}</div>
+              ) : null}
+
               {this.state.showSuccess ? (
                 <div className="show_success">
                   THank you. Your order has been processed Successfully
