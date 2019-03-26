@@ -18,7 +18,7 @@ class Card extends Component {
     const props = this.props;
     return (
       <div>
-        <Link to={`products/${props.name}/${props._id}`}>
+        <Link to={`/shop/products/${props.name}/${props._id}`}>
           <div
             className="image"
             style={{
@@ -37,7 +37,7 @@ class Card extends Component {
               <div className="button_wrapp">
                 <Link
                   className="card_link"
-                  to={`products/${props.name}/${props._id}`}
+                  to={`/shop/products/${props.name}/${props._id}`}
                 >
                   View More
                 </Link>

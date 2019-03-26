@@ -25,6 +25,8 @@ const Routes = () => {
     <Layout>
       <Switch>
         <Route path="/shop/products" exact component={Auth(Products, null)} />
+        <Route path="/shop/products/search/:srchStr" exact component={Auth(Products, null)} />
+       
         <Route
           path="/shop/products/:name/:id"
           exact

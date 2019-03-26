@@ -94,6 +94,8 @@ app.post("/api/products/shop", (req, res) => {
           $gte: req.body.filters[key][0],
           $lte: req.body.filters[key][1]
         };
+      } else if (key == "name") {
+        findArgs[key] = { $regex: "/*" + req.body.filters[key] + "/*" };
       } else {
         //other filters
         findArgs[key] = req.body.filters[key];
@@ -231,7 +233,6 @@ app.post("/api/users/edit", auth, (req, res) => {
   );
 });
 app.post("/api/users/login", (req, res) => {
-  console.log(req.body.password);
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user)
       return res.json({

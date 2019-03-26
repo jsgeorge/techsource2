@@ -97,6 +97,16 @@ class Header extends Component {
       }
     });
   };
+  handleDesktopSrch = event => {
+    event.preventDefault();
+    const srchStr = this.refs.desktopSrch.value;
+    this.props.history.push(`/shop/products/search/${srchStr}`);
+  };
+  handleMobileSrch = event => {
+    event.preventDefault();
+    const srchStr = this.refs.mobileSrch.value;
+    this.props.history.push(`/shop/products/search/${srchStr}`);
+  };
 
   defaultLink = (item, i) =>
     item.name === "Log out" ? (
@@ -118,9 +128,27 @@ class Header extends Component {
 
     return (
       <div className="cart_link" key={i}>
-        <span>{user.cart ? user.cart.length : 0}</span>
-        <FontAwesomeIcon icon={faShoppingCart} />
-        <Link to={item.linkTo}>{item.name}</Link>
+        <Link to={item.linkTo}>
+          <span>{user.cart ? user.cart.length : 0}</span>
+          <FontAwesomeIcon icon={faShoppingCart} />
+        </Link>
+      </div>
+    );
+  };
+
+  accountLink = (item, i) => {
+    const user = this.props.user.userData;
+
+    return (
+      <div className="account_link" key={i}>
+        <Link to={item.linkTo}>
+          {user ? (
+            <span>
+              {" "}
+              <FontAwesomeIcon icon={faUser} />{" "}
+            </span>
+          ) : null}
+        </Link>
       </div>
     );
   };
@@ -176,11 +204,19 @@ class Header extends Component {
     // });
 
     return list.map((item, i) => {
-      if (item.name !== "Cart") {
+      // if (item.name !== "Cart") {
+      //   if (!isMobile) return this.defaultLink(item, i);
+      //   else return this.mobileLink(item, i);
+      // } else {
+      //   return this.cartLink(item, i);
+      // }
+      if (item.name === "Cart") {
+        return this.cartLink(item, i);
+      } else if (item.name === "Account") {
+        return this.accountLink(item, i);
+      } else {
         if (!isMobile) return this.defaultLink(item, i);
         else return this.mobileLink(item, i);
-      } else {
-        return this.cartLink(item, i);
       }
     });
   };
@@ -209,24 +245,30 @@ class Header extends Component {
                   </div>
                 </div>
                 <div className="srch-form">
-                  <form>
-                    <input placeholder="Search products" />
-                    <button>{this.desktopSearch()}</button>
+                  <form onSubmit={this.handleDesktopSrch}>
+                    <input
+                      type="text"
+                      ref="desktopSrch"
+                      placeholder="Search products"
+                    />
+                    <button type="submit">{this.desktopSearch()}</button>
                   </form>
                 </div>
                 <div className="mobileNav right mobile">
-                  <Link to={"/cart"}>{this.mobileCart()}</Link>
+                  {/* <Link to={"/cart"}>{this.mobileCart()}</Link> */}
 
                   {this.props.user.userData &&
                   this.props.user.userData.isAuth ? (
                     <span>
+                      {/* {this.cartLink("Cart", 0)}
                       <Link to={"/user/dashboard"}>{this.mobileUser()}</Link>
                       <button
                         className="transp-btn"
                         onClick={() => this.logoutHandler()}
                       >
                         Logout
-                      </button>
+                      </button> */}
+                      {this.showLinks(this.state.user, false)}
                       {/* <List
                         style={{
                           padding: "0",
@@ -288,9 +330,13 @@ class Header extends Component {
             </Toolbar>
 
             <div className="srch">
-              <form>
-                <input placeholder="Search products" />
-                <button>{this.desktopSearch()}</button>
+              <form onSubmit={this.handleMobileSrch}>
+                <input
+                  type="text"
+                  ref="mobileSrch"
+                  placeholder="Search products"
+                />
+                <button type="submit">{this.desktopSearch()}</button>
               </form>
             </div>
             <div className="nav2 mobile">

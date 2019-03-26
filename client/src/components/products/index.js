@@ -15,6 +15,7 @@ class Products extends Component {
     limit: 9,
     skip: 0,
     ctgryId: "",
+    srchStr: "",
     filters: {
       brand: [],
       category: [],
@@ -25,11 +26,20 @@ class Products extends Component {
   componentDidMount() {
     this.props.dispatch(getBrands());
     this.props.dispatch(getCategories());
-    this.props.dispatch(
-      getProducts(this.state.skip, this.state.limit, this.state.filters)
-    );
-    //this.ctgryId = this.getCategoryId("Phones");
-    //this.ctgryFilters(this.ctgryId);
+    if (!this.props.match.params.srchStr) {
+      this.props.dispatch(
+        getProducts(this.state.skip, this.state.limit, this.state.filters)
+      );
+    } else {
+      const srchStr = this.props.match.params.srchStr;
+      const srchFilter = {
+        name: srchStr
+      };
+      this.setState({ srchStr: srchStr });
+      this.props.dispatch(
+        getProducts(this.state.skip, this.state.limit, srchFilter)
+      );
+    }
   }
 
   getCategoryId = category => {
@@ -125,6 +135,11 @@ class Products extends Component {
               />
             </div>
             <div className="right">
+              <h4>
+                {this.state.srchStr ? (
+                  <span>Search: {this.state.srchStr}</span>
+                ) : null}
+              </h4>
               <LoadMoreCards
                 grid={this.state.grid}
                 limit={this.state.limit}

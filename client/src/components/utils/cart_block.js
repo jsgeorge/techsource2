@@ -25,7 +25,7 @@ const CartBlock = ({ products, removeItem }) => {
                 }}
               />
             </div>
-            <div className="item desktop tablet">
+            <div className="item name desktop tablet">
               <h3 />
               {product.brand.name} {product.name}
             </div>
@@ -35,34 +35,37 @@ const CartBlock = ({ products, removeItem }) => {
 
             <div className="item desktop tablet">
               <h3 />
-              <span className="mobile">Qty: </span>
+
               {product.quantity}
             </div>
             <div className="item desktop tablet">
-              <h3 />
-              <span className="mobile">Unit Price</span>$
-              {product.price * product.quantity}
+              <h3 />${product.price * product.quantity}
             </div>
 
             <div className="item mobile">
-              <div>
-                {product.brand.name} {product.name}
-              </div>
-              <div>${product.price} </div>
+              {product.brand.name} {product.name}
+              <div className="priceline">
+                <div className="priceQty">${product.price} </div>
 
-              <div>
-                Qty:
-                {product.quantity}
+                <div className="priceQty qty">
+                  Qty
+                  {product.quantity}
+                </div>
+
+                <div className="priceQty">
+                  Total ${product.price * product.quantity}
+                </div>
+
+                <div className="priceQty">
+                  <h3 />
+                  <button
+                    onClick={() => removeItem(product._id)}
+                    className="cart_remove_btn"
+                  >
+                    x
+                  </button>
+                </div>
               </div>
-              <div>Unit Total ${product.price * product.quantity}</div>
-            </div>
-            <div className="item btn">
-              <button
-                onClick={() => removeItem(product._id)}
-                className="cart_remove_btn"
-              >
-                x
-              </button>
             </div>
           </div>
         ))

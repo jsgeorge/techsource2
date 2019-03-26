@@ -97,9 +97,10 @@ class Cart extends Component {
     const user = this.props.user.userData;
     return (
       <LayoutAdmin>
-        <h3>
-          My Cart
-          {/* <table>
+        <div className="user_nfo_panel">
+          <h3>
+            My Cart
+            {/* <table>
               <tr>
                 <th>Item</th>
                 <th>qty</th>
@@ -113,46 +114,47 @@ class Cart extends Component {
                 <td> {this.props.user.userData.cart[2].qty}</td>
               </tr>
             </table> */}
-        </h3>
-        <div className="container">
-          <div>
-            {/* <CartBlock cart={this.props.user.userData.cart} /> */}
-            {this.state.total == 0 ? (
-              <div>No items in cart</div>
-            ) : (
-              <div>
-                <CartBlock
-                  products={this.props.user}
-                  type="cart"
-                  removeItem={id => this.removeFromCart(id)}
-                />
-              </div>
-            )}
-            {this.state.showTotal && this.state.total > 0 ? (
-              <div className="user_cart_sum">Total $ {this.state.total}</div>
-            ) : null}
-            {this.state.showTotal ? (
-              <div className="paypal_button_container">
-                {/* <button
+          </h3>
+          <div className="container">
+            <div>
+              {/* <CartBlock cart={this.props.user.userData.cart} /> */}
+              {this.state.total == 0 ? (
+                <div>No items in cart</div>
+              ) : (
+                <div>
+                  <CartBlock
+                    products={this.props.user}
+                    type="cart"
+                    removeItem={id => this.removeFromCart(id)}
+                  />
+                </div>
+              )}
+              {this.state.showTotal && this.state.total > 0 ? (
+                <div className="user_cart_sum">Total $ {this.state.total}</div>
+              ) : null}
+              {this.state.showTotal ? (
+                <div className="paypal_button_container">
+                  {/* <button
                   className="btnPaypal"
                   onClick={() => this.paypalHandler()}
                   style={{ color: "#fff" }}
                 >
                   Checkout
                 </button> */}
-                <Paypal
-                  toPay={this.state.total}
-                  transactionError={data => this.transactionError(data)}
-                  transactionCanceled={data => this.transactionCanceled(data)}
-                  onSuccess={data => this.transactionSuccess(data)}
-                />
-              </div>
-            ) : null}
-            {this.state.showSuccess ? (
-              <div className="show_success">
-                THank you. Your order has been processed Successfully
-              </div>
-            ) : null}
+                  <Paypal
+                    toPay={this.state.total}
+                    transactionError={data => this.transactionError(data)}
+                    transactionCanceled={data => this.transactionCanceled(data)}
+                    onSuccess={data => this.transactionSuccess(data)}
+                  />
+                </div>
+              ) : null}
+              {this.state.showSuccess ? (
+                <div className="show_success">
+                  THank you. Your order has been processed Successfully
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </LayoutAdmin>
