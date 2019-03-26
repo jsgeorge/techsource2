@@ -1315,13 +1315,25 @@ header .desktop {
     flex-grow: 1;
     padding: 0;
     margin: 0;
+    max-width: 190px;
+    font-size: 12px;
+  }
+  .user_product_block .item button {
+    padding: 3px 6px;
+    border: none;
+    margin-left: 10px;
+  }
+  .item-info {
+    padding-right: 15px;
+
+    width: 50%;
   }
   .user_product_block .item .priceline .qty {
     width: 40px;
   }
-  */ .user_product_block .item .image {
-    width: 50px;
-    height: 50px;
+  .user_product_block .item .image {
+    width: 80px;
+    height: 80px;
     padding: 0;
     margin: 0;
   }

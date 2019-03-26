@@ -13,8 +13,6 @@ const CartBlock = ({ products, removeItem }) => {
     products.cartDetail
       ? products.cartDetail.map(product => (
           <div className="user_product_block" key={product._id}>
-            {/* item
-            <tr>{<CartItem key={product.id} {...product} />}</tr> */}
             <div className="item">
               <div
                 className="image"
@@ -42,30 +40,25 @@ const CartBlock = ({ products, removeItem }) => {
               <h3 />${product.price * product.quantity}
             </div>
 
-            <div className="item mobile">
+            <div className="item mobile item-info">
               {product.brand.name} {product.name}
-              <div className="priceline">
-                <div className="priceQty">${product.price} </div>
-
-                <div className="priceQty qty">
-                  Qty
-                  {product.quantity}
-                </div>
-
-                <div className="priceQty">
-                  Total ${product.price * product.quantity}
-                </div>
-
-                <div className="priceQty">
-                  <h3 />
-                  <button
-                    onClick={() => removeItem(product._id)}
-                    className="cart_remove_btn"
-                  >
-                    x
-                  </button>
-                </div>
+              <div className="priceQty">${product.price} </div>
+              <div className="priceQty qty">
+                Qty
+                {product.quantity}
               </div>
+              <div className="priceQty">
+                Total ${product.price * product.quantity}
+              </div>
+            </div>
+            <div className="item mobile">
+              <h3 />
+              <button
+                onClick={() => removeItem(product._id)}
+                className="cart_remove_btn"
+              >
+                x
+              </button>
             </div>
           </div>
         ))
