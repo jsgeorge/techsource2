@@ -8,7 +8,7 @@ import faShoppingBag from "@fortawesome/fontawesome-free-solid/faShoppingBag";
 const ProductDetail = props => {
   const product = props.product;
   return (
-    <div>
+    <div className="detail">
       <h3>
         {product.brand.name} {product.name}
       </h3>

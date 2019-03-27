@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import FormField from "../utils/form_fields";
 import { validate } from "../utils/misc";
+import MyButton from "../utils/button";
+
 import { UserLogin } from "../../actions/user_actions";
 class Login2 extends Component {
   state = {
@@ -54,7 +56,7 @@ class Login2 extends Component {
       this.props.dispatch(UserLogin(dataToSubmit)).then(response => {
         if (response.payload.loginSuccess) {
           console.log(response.payload);
-         
+
           this.props.history.push("/user/dashboard");
         } else {
           this.setState({

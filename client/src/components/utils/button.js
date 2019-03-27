@@ -45,6 +45,18 @@ const MyButton = props => {
           </div>
         );
         break;
+      case "register_submit":
+        template = (
+          <div
+            className={!props.altClass ? "link_default" : props.altClass}
+            onClick={() => {
+              props.runAction();
+            }}
+          >
+            Register
+          </div>
+        );
+        break;
       case "logout_link":
         template = (
           <div

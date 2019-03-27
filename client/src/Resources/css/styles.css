@@ -744,12 +744,12 @@ footer .business_nfo .nfo {
 .product_detail_wrapper .product_image_container {
   margin-top: 30px;
   padding-right: 70px;
-  min-width: 500px;
+  min-width: 60%;
 }
 
 .product_detail_wrapper .main_pic {
-  /* box-sizing: border-box; */
-  width: 100%;
+  box-sizing: border-box;
+
   cursor: pointer;
 }
 
@@ -790,7 +790,8 @@ footer .business_nfo .nfo {
   border-top: 5px solid #999592;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  margin: 80px 0px 110px 0px;
+  margin: 20px auto 110px auto;
+  width: 60%;
   padding: 30px;
   min-height: 430px;
 }
@@ -1034,6 +1035,12 @@ header .desktop {
 .page_top {
   margin-top: 20px;
   padding-left: 15px;
+}
+.product_detail_wrapper .product_image_container {
+  margin-top: 0px;
+  padding-right: 40px;
+  min-width: 30%;
+  padding-top: 0px;
 }
 /* .shop_wrapper {
   display: block;
@@ -1351,6 +1358,7 @@ header .desktop {
     width: 100%;
     padding: 0;
     margin: 0;
+    \margin-top: 10px;
     min-width: 0;
     height: 200px;
   }
@@ -1364,7 +1372,14 @@ header .desktop {
   .product_detail_wrapper .right {
     width: 100%;
     clear: left;
-    padding-left: 15px;
+    padding-left: 0px;
+  }
+  .detail {
+    padding: 20px;
+  }
+  .prod_info {
+    padding: 0;
+    margin-bottom: 30px;
   }
   footer .wrapper {
     display: block;
@@ -1404,5 +1419,9 @@ header .desktop {
   }
   .product_detail_wrapper .product_actions .price {
     font-size: 18px;
+  }
+  .register_login_container {
+    width: 100%;
+    margin: 0;
   }
 }

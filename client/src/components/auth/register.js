@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import FormField from "../utils/form_fields";
 import { validate } from "../utils/misc";
+import MyButton from "../utils/button";
+
 import { UserRegister } from "../../actions/user_actions";
 class Register extends Component {
   state = {
@@ -133,9 +135,7 @@ class Register extends Component {
           <div className="register_login_container">
             <div className="left">
               <h2>Existing User</h2>
-              <Link to="/login" className="button">
-                Login
-              </Link>
+              <MyButton type="default" title="Login" linkTo="/login" />
             </div>
             <div className="right">
               <div className="signin_wrapper">
@@ -169,12 +169,20 @@ class Register extends Component {
                     <div className="error_label"> {this.state.formErrMsg}</div>
                   ) : null}
 
-                  <button
+                  {/* <button
                     onClick={event => this.submitForm(event)}
                     className="button"
                   >
                     Register
-                  </button>
+                  </button> */}
+                  <div className="button_wrapp">
+                    <button
+                      className="register_submit"
+                      onClick={event => this.submitForm(event)}
+                    >
+                      Register
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
