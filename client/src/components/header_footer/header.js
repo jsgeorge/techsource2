@@ -18,6 +18,7 @@ import { orange } from "@material-ui/core/colors";
 class Header extends Component {
   state = {
     open: false,
+    err: false,
     page2: [
       {
         name: "Home",
@@ -100,12 +101,17 @@ class Header extends Component {
   handleDesktopSrch = event => {
     event.preventDefault();
     const srchStr = this.refs.desktopSrch.value;
-    this.props.history.push(`/shop/products/search/${srchStr}`);
+    if (srchStr && srchStr.length > 0) {
+      this.setState({ err: false });
+      this.props.history.push(`/shop/products/search/${srchStr}`);
+    }
   };
   handleMobileSrch = event => {
     event.preventDefault();
     const srchStr = this.refs.mobileSrch.value;
-    this.props.history.push(`/shop/products/search/${srchStr}`);
+    if (srchStr && srchStr.length > 0) {
+      this.props.history.push(`/shop/products/search/${srchStr}`);
+    }
   };
 
   defaultLink = (item, i) =>

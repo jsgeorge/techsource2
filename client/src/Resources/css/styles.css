@@ -11,7 +11,6 @@ body {
   padding: 0;
 }
 .page_container {
-  min-height: 75vh;
   padding-top: 105px;
 }
 .main_loader {
@@ -115,8 +114,9 @@ input {
 
 .error_label {
   color: #f44336;
-  display: block;
   font-size: 15px;
+  padding: 0;
+  margin: 0;
 }
 
 textarea {
@@ -820,7 +820,7 @@ footer .business_nfo .nfo {
 .user_container {
   display: flex;
   margin-bottom: 50px;
-  min-height: 700px;
+  min-height: 500px;
 }
 
 .user_container .user_left_nav {

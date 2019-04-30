@@ -6,7 +6,7 @@ import { validate } from "../../utils/misc";
 import { ProductAdd } from "../../../actions/product_actions";
 import { getBrands } from "../../../actions/brand_actions";
 import { getCategories } from "../../../actions/category_actions";
-import LayoutAdmin from "../../../Hoc/adminLayout";
+import LayoutAdmin from "../../../hoc/adminLayout";
 import FileUpload from "../../utils/fileupload";
 
 class AddProduct extends Component {
@@ -432,7 +432,7 @@ class AddProduct extends Component {
         </div> */}
 
         <div>
-          <h2>formtype:Add Product</h2>
+          <h2>Add Product</h2>
           <form onSubmit={event => this.submitForm(event)}>
             <div className="enroll_title">Name</div>
             <div className="enroll_input">

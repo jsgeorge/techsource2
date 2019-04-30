@@ -94,7 +94,7 @@ class Register extends Component {
           } else {
             this.setState({
               formError: true,
-              formErrMsg: "error in registering user"
+              formErrMsg: "Invalid fields entered or username alread exists"
             });
           }
         })
@@ -140,6 +140,10 @@ class Register extends Component {
             <div className="right">
               <div className="signin_wrapper">
                 <h2>Register</h2>
+                {this.state.formError ? (
+                  <div className="error_label"> {this.state.formErrMsg}</div>
+                ) : null}
+
                 <form onSubmit={event => this.submitForm(event)}>
                   <div className="enroll_title">Email</div>
                   <FormField
@@ -165,10 +169,6 @@ class Register extends Component {
                     formdata={this.state.formdata.lastname}
                     change={element => this.updateForm(element)}
                   />
-                  {this.state.formError ? (
-                    <div className="error_label"> {this.state.formErrMsg}</div>
-                  ) : null}
-
                   {/* <button
                     onClick={event => this.submitForm(event)}
                     className="button"

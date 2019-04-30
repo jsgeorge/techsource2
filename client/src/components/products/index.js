@@ -16,6 +16,7 @@ class Products extends Component {
     skip: 0,
     ctgryId: "",
     srchStr: "",
+    type: "",
     filters: {
       brand: [],
       category: [],
@@ -33,9 +34,10 @@ class Products extends Component {
     } else {
       const srchStr = this.props.match.params.srchStr;
       const srchFilter = {
-        name: srchStr
+        sname: srchStr
       };
       this.setState({ srchStr: srchStr });
+      console.log(this.state.type);
       this.props.dispatch(
         getProducts(this.state.skip, this.state.limit, srchFilter)
       );
@@ -96,6 +98,7 @@ class Products extends Component {
           skip,
           this.state.limit,
           this.state.filters,
+          "filter",
           this.props.products.toShop
         )
       )

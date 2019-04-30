@@ -85,22 +85,39 @@ app.post("/api/products/shop", (req, res) => {
   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
   let skip = parseInt(req.body.skip);
+
   let findArgs = {};
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
+      // if (type === "filter") {
       if (key === "price") {
         //price range
         findArgs[key] = {
           $gte: req.body.filters[key][0],
           $lte: req.body.filters[key][1]
         };
-      } else if (key == "name") {
-        findArgs[key] = { $regex: "/*" + req.body.filters[key] + "/*" };
+      } else if (key == "sname") {
+        let srchStr = "/*" + req.body.filters["sname"] + "/*";
+        let filtStr = req.body.filters["sname"];
+        let ctgryId = "";
+
+        // findArgs = {
+        //   $and: [{ name: { $regex: srchStr } }, { brand: { $regex: srchStr } }]
+        // };
+        //
+        findArgs = {
+          name: { $regex: srchStr }
+        };
       } else {
         //other filters
         findArgs[key] = req.body.filters[key];
       }
+      // } else {
+      //   if (key == "name") {
+      //     findArgs[key] = { $regex: "/*" + req.body.filters[key] + "/*" };
+      //   }
+      // }
     }
   }
   console.log(findArgs);
@@ -408,21 +425,21 @@ app.get("/api/users/logout", auth, (req, res) => {
   });
 });
 
-// app.post("/api/users/uploadimage", auth, admin, formidable(), (req, res) => {
-//   cloudinary.uploader.upload(
-//     req.files.file.path,
-//     result => {
-//       res.status(200).send({
-//         public_id: result.public_id,
-//         url: result.url
-//       });
-//     },
-//     {
-//       public_id: `${Date.now()}`,
-//       resource_type: "auto"
-//     }
-//   );
-// });
+app.post("/api/users/uploadimage", auth, admin, formidable(), (req, res) => {
+  cloudinary.uploader.upload(
+    req.files.file.path,
+    result => {
+      res.status(200).send({
+        public_id: result.public_id,
+        url: result.url
+      });
+    },
+    {
+      public_id: `${Date.now()}`,
+      resource_type: "auto"
+    }
+  );
+});
 
 //default
 if (process.env.NODE_ENV === "production") {

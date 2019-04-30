@@ -26,8 +26,11 @@ class Product extends Component {
       <div className="page_wrapper">
         <div className="page_top">
           <div className="container">
-            <Link to={"/shop/products"}>Shop</Link> / View Product
-          </div>{" "}
+            <Link to={"/shop/products"}>Shop</Link> /
+            {this.props.products.byId
+              ? this.props.products.byId.map(product => product.category.name)
+              : null}
+          </div>
         </div>
         <div className="container">
           {this.props.products.byId

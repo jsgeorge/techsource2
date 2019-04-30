@@ -11,6 +11,8 @@ import EditAccount from "./components/user/edit_account";
 import Products from "./components/products";
 import Product from "./components/products/product";
 import Cart from "./components/cart";
+import AddProduct from "./components/user/admin/addProduct";
+
 // class App extends Component {
 //   render() {
 //     return (
@@ -25,8 +27,16 @@ const Routes = () => {
     <Layout>
       <Switch>
         <Route path="/shop/products" exact component={Auth(Products, null)} />
-        <Route path="/shop/products/search/:srchStr" exact component={Auth(Products, null)} />
-       
+        <Route
+          path="/shop/products/search/:srchStr"
+          exact
+          component={Auth(Products, null)}
+        />
+        <Route
+          path="/admin/products/add"
+          exact
+          component={Auth(AddProduct, true)}
+        />
         <Route
           path="/shop/products/:name/:id"
           exact
