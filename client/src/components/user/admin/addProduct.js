@@ -192,82 +192,6 @@ class AddProduct extends Component {
         formdata: newFormData
       });
     });
-    // const brands = this.props.brands.byName;
-    // const categories = this.props.categories.byName;
-
-    //const brandOptions = [];
-    //const categoryOptions = [];
-    // if (this.props.brands.byName && this.props.categories.byName) {
-    //   const getBrandItems = (product, type) => {
-    //     brands.map(snapshot => {
-    //       const brandOptions = [];
-    //       snapshot.forEach(childSnapShot => {
-    //         brandOptions.push({
-    //           key: childSnapShot.val().name,
-    //           value: childSnapShot.val().name
-    //         });
-    //       });
-    //       this.updateFields(
-    //         product,
-    //         brandOptions,
-    //         "",
-    //         brands,
-    //         "",
-    //         type,
-    //         prodId
-    //       );
-    //     });
-    //   };
-
-    //   const getCategoryItems = (product, type) => {
-    //     categories.map(snapshot => {
-    //       const categoryOptions = [];
-    //       snapshot.forEach(childSnapShot => {
-    //         categoryOptions.push({
-    //           key: childSnapShot.val().name,
-    //           value: childSnapShot.val().name
-    //         });
-    //       });
-    //       this.updateFields(
-    //         product,
-    //         "",
-    //         categoryOptions,
-    //         "",
-    //         categories,
-    //         type,
-    //         prodId
-    //       );
-    //     });
-    //   };
-
-    //   if (!prodId) {
-    //     //Add Match
-    //     getBrandItems(false, "Add Product");
-    //     getCategoryItems(false, "Add Product");
-    //   } else {
-    //     //Edit Product
-    //   }
-    // }
-
-    //});
-    // if (this.props.brands.byName) {
-    //   this.props.brands.byName.map(item => {
-    //     brandOptions.push({
-    //       key: item._id,
-    //       value: item.name
-    //     });
-    //   });
-    // }
-
-    // if (this.props.categories.byName) {
-    //   this.props.categories.byName.map(item => {
-    //     categoryOptions.push({
-    //       key: item._id,
-    //       value: item.name
-    //     });
-    //   });
-    // }
-    //this.updateFields(brandOptions, categoryOptions, brands, categories);
   }
   populateOptionFields(formdata, fileRows, type) {
     const fieldOptions = [];
@@ -287,69 +211,6 @@ class AddProduct extends Component {
     }
     return newFormData;
   }
-  // updateBrandOptions(brandOptions) {
-  //   const newFormData = {
-  //     ...this.state.formdata
-  //   };
-  //   for (let key in newFormData) {
-  //     if (key === "brand") {
-  //       newFormData[key].config.options = brandOptions;
-  //     }
-  //   }
-  //   this.setState({
-  //     formdata: newFormData
-  //   });
-  // }
-  // updateFields(
-  //   product,
-  //   brandOptions,
-  //   categoryOptions,
-  //   brands,
-  //   categories,
-  //   type,
-  //   prodId
-  // ) {
-  //   const newFormData = {
-  //     ...this.state.formdata
-  //   };
-  //   for (let key in newFormData) {
-  //     if (product) {
-  //       newFormData[key].value = product[key];
-  //       newFormData[key].valid = true;
-  //     }
-  //     if (key === "brand") {
-  //       newFormData[key].config.options = brandOptions;
-  //     }
-  //     if (key === "category") {
-  //       newFormData[key].config.options = categoryOptions;
-  //     }
-  //   }
-  //   this.setState({
-  //     prodId,
-  //     formType: type,
-  //     formdata: newFormData,
-  //     brands,
-  //     categories
-  //   });
-  // }
-  // updateFields(brandOptions, categoryOptions, brands, categories) {
-  //   const newFormData = {
-  //     ...this.state.formdata
-  //   };
-  //   for (let key in newFormData) {
-  //     if (key === "brands") {
-  //       newFormData[key].config.options = brandOptions;
-  //     }
-  //     if (key === "categories") {
-  //       newFormData[key].config.options = categoryOptions;
-  //     }
-  //   }
-  //   this.setState({
-  //     brands,
-  //     categories,
-  //     formdata: newFormData
-  //   });
-  // }
 
   updateForm(element) {
     const newFormData = { ...this.state.formdata };
@@ -412,25 +273,6 @@ class AddProduct extends Component {
   render() {
     return (
       <LayoutAdmin>
-        {/* <div>
-          {this.props.brands.byName
-            ? this.props.brands.byName.map(item => (
-                <p>
-                  {item._id} {item.name}
-                </p>
-              ))
-            : null}
-        </div>
-        <div>
-          {this.props.categories.byName
-            ? this.props.categories.byName.map(item => (
-                <p>
-                  {item._id} {item.name}
-                </p>
-              ))
-            : null}
-        </div> */}
-
         <div>
           <h2>Add Product</h2>
           <form onSubmit={event => this.submitForm(event)}>
@@ -502,6 +344,7 @@ class AddProduct extends Component {
                 imagesHandler={images => this.imagesHandler(images)}
                 reset={this.state.formSuccess}
               />
+
               {this.state.formSuccess ? (
                 <div className="success_label">
                   Success - Record saved to database

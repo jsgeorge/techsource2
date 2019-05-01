@@ -12,7 +12,6 @@ const ProductSchema = mongoose.Schema(
     description: {
       requried: true,
       type: String,
-      unique: 1,
       maxlength: 1000
     },
     price: {
